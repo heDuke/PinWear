@@ -63,3 +63,43 @@
 - 决策：目标数据流为 Presentation → ViewModel → Repository → Retrofit/OkHttp → Pinterest API，Screen 不得直接访问 API。
 - 背景：需要隔离 Wear OS UI 与远程数据访问。
 - 影响：当前 Starter UI 不立即重构；在 v0.2 OAuth 阶段按最小需求逐步引入。
+
+## ADR-0008：保持单 app 模块，采用包级分层
+
+- 日期：2026-07-18
+- 状态：已确认目标架构
+- 决策：不新增独立 Gradle 模块；在单 `app` 模块内划分 `core`、`data`、`domain` 和 `presentation` 包。
+- 背景：当前仓库只有一个 Wear OS app 模块，产品暂不包含手机端应用。
+- 影响：降低模块化初期复杂度，同时通过依赖方向保持边界；未来新增 Gradle 模块需要单独评审。
+
+## ADR-0009：Repository 隔离远程数据源
+
+- 日期：2026-07-18
+- 状态：已确认目标架构
+- 决策：Repository 接口位于 Domain，具体实现位于 Data；Remote Data Source 只负责 Pinterest 官方 API 通信。
+- 背景：Screen 和 ViewModel 不应直接依赖 Retrofit、OkHttp 或 DTO。
+- 影响：UI 与 API 契约解耦，便于测试和官方 API 变更时的映射调整。
+
+## ADR-0010：统一 UI State 和错误边界
+
+- 日期：2026-07-18
+- 状态：已确认目标架构
+- 决策：页面统一处理 Loading、Success、Empty、Error；Data 层将 API、OAuth、网络和未知异常映射为领域错误。
+- 背景：Wear OS 小屏幕需要明确、可恢复的状态反馈，且不能把网络错误显示为空数据。
+- 影响：ViewModel 对外暴露稳定状态，Screen 不处理 HTTP 异常和 DTO。
+
+## ADR-0011：不缓存 Pinterest 业务内容
+
+- 日期：2026-07-18
+- 状态：已确认产品边界
+- 决策：不离线缓存 Boards、Pins、图片或详情；本地数据仅用于 OAuth 会话所需信息。
+- 背景：产品定义明确禁止离线缓存 Pinterest 数据。
+- 影响：必须重点处理无网络、超时、限流和重新加载体验；Token 的具体安全存储方案仍需 OAuth 阶段确认。
+
+## ADR-0012：OAuth 是 v0.2 的实现前置门槛
+
+- 日期：2026-07-18
+- 状态：已确认流程
+- 决策：先核验 Pinterest 官方 OAuth 文档、权限、回调和 Developer Guidelines，再开始 Kotlin 实现。
+- 背景：项目禁止猜测官方 API 行为，也禁止使用非官方接口或逆向信息。
+- 影响：当前 Architecture Design 已完成，但 v0.2 的代码实现必须等待官方契约确认。

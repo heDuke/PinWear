@@ -2,6 +2,16 @@
 
 ## 2026-07-18
 
+### Architecture Design
+
+- 冻结 Presentation → ViewModel → Repository → Remote Data Source → Pinterest API 架构。
+- 规划单 `app` 模块内的 `core`、`data`、`domain` 和 `presentation` 包结构。
+- 规划 DTO、Domain Model、UI Model 及数据转换边界。
+- 规划 Auth、User、Board、Pin Repository 和五类 ViewModel。
+- 规划 Splash、Login、Home、Board、Pin Detail 导航流程。
+- 统一 Loading、Success、Empty、Error 状态及 API/OAuth/Network/Unknown 错误处理。
+- 记录单模块、Repository 隔离、无 Pinterest 业务缓存和 OAuth 前置核验等架构决策。
+
 ### Product Definition
 
 - 确认 PinWear 为 Pinterest 官方 API 的 Wear OS 客户端。
