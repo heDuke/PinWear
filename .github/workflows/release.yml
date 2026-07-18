@@ -31,7 +31,9 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build release APK
-        run: ./gradlew assembleRelease --stacktrace
+        # Spotless currently cannot serialize its configuration-cache state.
+        # Keep configuration cache enabled locally, but disable it in CI.
+        run: ./gradlew assembleRelease --stacktrace -Dorg.gradle.configuration-cache=false
 
       - name: Publish APK to GitHub Release
         env:
@@ -41,4 +43,3 @@ jobs:
             app/build/outputs/apk/release/app-release.apk \
             --title "PinWear ${GITHUB_REF_NAME}" \
             --generate-notes
-

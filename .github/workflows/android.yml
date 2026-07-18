@@ -32,7 +32,9 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build, test, and lint
-        run: ./gradlew build lintDebug --stacktrace
+        # Spotless currently cannot serialize its configuration-cache state.
+        # Keep configuration cache enabled locally, but disable it in CI.
+        run: ./gradlew build lintDebug --stacktrace -Dorg.gradle.configuration-cache=false
 
       - name: Upload test and lint reports
         if: always()
@@ -43,4 +45,3 @@ jobs:
             **/build/reports/
             **/build/test-results/
           if-no-files-found: ignore
-
