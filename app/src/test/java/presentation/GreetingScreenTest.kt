@@ -17,7 +17,7 @@ package presentation
 
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.TimeText
-import com.example.android.wearable.composestarter.presentation.GreetingScreen
+import com.wear.pin.presentation.GreetingScreen
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner

@@ -38,7 +38,6 @@ subprojects {
             targetExclude("bin/**/*.kt")
 
             ktlint(libs.versions.ktlint.get())
-            licenseHeaderFile(rootProject.file("../spotless/copyright.kt"))
         }
 
         kotlinGradle {

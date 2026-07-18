@@ -15,7 +15,7 @@
  */
 package presentation
 
-import com.example.android.wearable.composestarter.presentation.SampleDialog
+import com.wear.pin.presentation.SampleDialog
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner

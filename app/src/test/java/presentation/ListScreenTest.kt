@@ -21,7 +21,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.TimeText
-import com.example.android.wearable.composestarter.presentation.ListScreen
+import com.wear.pin.presentation.ListScreen
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.ParameterizedRobolectricTestRunner

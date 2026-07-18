@@ -34,11 +34,19 @@
 
 ## 待决策
 
-- Pinterest 官方 OAuth 的回调、权限和 Token 策略。【待确认】
+- Pinterest OAuth 应用注册、回调方式和权限范围。【待确认】
 - Pinterest 官方 API 的字段、分页、限流和审核约束。【待确认】
 - Pin 详情、图片加载和官方页面打开的具体 UI 行为。【待确认】
 - 工程命名、namespace 和包名是否统一调整。【待确认】
 - 正式签名、发布渠道和版本号策略。【待确认】
+
+## ADR-0016：纯 Wear OS 客户端存储 client_secret
+
+- 日期：2026-07-18
+- 状态：已决策
+- 决策：第一版采用纯 Wear OS 客户端方案，将 client_secret 和 OAuth Token 保存在本地客户端，接受 client_secret 无法绝对保护的风险。不再讨论 Backend OAuth Gateway 或手机代理方案。
+- 背景：为了降低架构复杂度，并在无需后端中转的前提下满足用户对原生的诉求。
+- 影响：客户端需尽最大努力安全存储（如使用 DataStore 等），不再将其作为业务开发阻塞项。图片 CDN/缓存也降级为开放问题。
 
 ## ADR-0005：产品范围限定为 Pinterest 官方 API 浏览客户端
 

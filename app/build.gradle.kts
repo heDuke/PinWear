@@ -25,7 +25,7 @@ plugins {
 android {
     compileSdk = 36
 
-    namespace = "com.example.android.wearable.composestarter"
+    namespace = "com.wear.pin"
 
     defaultConfig {
         applicationId = "com.wear.pin"

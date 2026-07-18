@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.wearable.composestarter.presentation
+package com.wear.pin.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -59,9 +59,9 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.navigation3.rememberSwipeDismissableSceneStrategy
 import androidx.wear.compose.ui.tooling.preview.WearPreviewDevices
 import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
-import com.example.android.wearable.composestarter.R
-import com.example.android.wearable.composestarter.presentation.theme.AppCardDefaults
-import com.example.android.wearable.composestarter.presentation.theme.WearAppTheme
+import com.wear.pin.R
+import com.wear.pin.presentation.theme.AppCardDefaults
+import com.wear.pin.presentation.theme.WearAppTheme
 import kotlinx.serialization.Serializable
 
 /**

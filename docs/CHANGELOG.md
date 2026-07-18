@@ -2,6 +2,20 @@
 
 ## 2026-07-18
 
+### Sprint 1.5: Project Cleanup
+
+- 将包名从 `com.example.android.wearable.composestarter` 成功迁移至 `com.wear.pin`。
+- 清理所有 DTO 中的推测字段，添加了待官方 API Reference 核验的 TODO 标记，保证 DTO 与 Domain Model 解耦且不包含未经官方确认的字段。
+- 梳理并列出了 Starter 遗留代码（MainActivity 内的 Greeting、ListScreen 示例、字符串资源及对应单元测试），作为后续清理计划保留。
+
+### Sprint 1: Project Skeleton
+
+- 建立项目的 `core`、`data`、`domain`、`presentation` 基础包结构。
+- 建立 `OAuthToken`、`UserAccount`、`Board`、`Pin` 的 Domain Model。
+- 建立 `AuthRepository`、`UserRepository`、`BoardRepository`、`PinRepository` 接口定义。
+- 建立上述模型的网络 DTO 数据类及 Mapper 文件存根。
+- 保证无实际业务逻辑，完全遵循 Architecture Freeze 的范围限制。
+
 ### Technical Validation
 
 - 基于 Pinterest 官方开发者文档和官方 Developer Guidelines 核验 OAuth、Scope、Token、分页、Rate Limit、错误码和图片/内容政策。
@@ -19,6 +33,10 @@
 - 规划 Splash、Login、Home、Board、Pin Detail 导航流程。
 - 统一 Loading、Success、Empty、Error 状态及 API/OAuth/Network/Unknown 错误处理。
 - 记录单模块、Repository 隔离、无 Pinterest 业务缓存和 OAuth 前置核验等架构决策。
+- 明确纯 Wear OS 客户端方案，由客户端直接调用接口交换 Token，不存在任何后端中间件。
+- 确认 Android Keystore 仅负责管理加密密钥，Access Token 和 Refresh Token 经加密后保存到本地持久化存储。
+- 制定 Token 并发刷新策略：全局收敛单一 Refresh 请求。
+- 细化 Refresh 异常处理：网络错误保留当前状态等待重试，认证错误则统一退出登录（清除缓存并返回 Login）。
 
 ### Product Definition
 
