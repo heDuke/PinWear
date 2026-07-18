@@ -2,6 +2,14 @@
 
 ## 2026-07-18
 
+### Technical Validation
+
+- 基于 Pinterest 官方开发者文档和官方 Developer Guidelines 核验 OAuth、Scope、Token、分页、Rate Limit、错误码和图片/内容政策。
+- 确认 Authorization Code flow、Redirect URI 精确匹配、最小 Scope、Access Token 和 continuous Refresh Token 机制。
+- 确认 `user_account`、Boards、Pins API 的计划范围及 bookmark 分页机制。
+- 记录官方未说明的 PKCE、Wear OS 原生回调、client secret 和图片资源访问问题。
+- 确认 v0.2 OAuth 实现必须等待阻塞性技术问题完成官方确认。
+
 ### Architecture Design
 
 - 冻结 Presentation → ViewModel → Repository → Remote Data Source → Pinterest API 架构。

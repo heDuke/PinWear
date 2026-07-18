@@ -103,3 +103,27 @@
 - 决策：先核验 Pinterest 官方 OAuth 文档、权限、回调和 Developer Guidelines，再开始 Kotlin 实现。
 - 背景：项目禁止猜测官方 API 行为，也禁止使用非官方接口或逆向信息。
 - 影响：当前 Architecture Design 已完成，但 v0.2 的代码实现必须等待官方契约确认。
+
+## ADR-0013：Technical Validation 只采纳 Pinterest 官方资料
+
+- 日期：2026-07-18
+- 状态：已确认
+- 决策：OAuth、API、限流、错误、图片资源和合规结论只采纳 Pinterest 官方开发者文档或官方政策页面；官方未说明的内容不得推断。
+- 背景：项目明确禁止私有 API、Reverse Engineering、抓包和非官方接口。
+- 影响：PKCE、原生回调、client secret 和图片缓存等问题必须在官方资料或官方支持确认后才能实现。
+
+## ADR-0014：MVP 采用最小读取权限
+
+- 日期：2026-07-18
+- 状态：已确认目标
+- 决策：MVP 默认只申请读取用户账户、公开 Boards 和公开 Pins 所需权限；secret Boards/Pins 只有在产品范围确认后才申请对应 Scope。
+- 背景：Pinterest 官方建议遵循最小 Scope 原则，MVP 不修改 Pinterest 内容。
+- 影响：不申请 write Scope；“自己的 Boards”是否包含 secret Boards 仍需确认。
+
+## ADR-0015：不把官方未说明内容编码为既定行为
+
+- 日期：2026-07-18
+- 状态：已确认
+- 决策：没有官方依据的 PKCE、Redirect URI 原生方案、client secret 处理、图片 CDN 和缓存行为统一标记为【官方未说明】【待确认】。
+- 背景：Pinterest 官方认证文档未出现 PKCE/code_challenge，图片访问政策也未定义所有客户端缓存细节。
+- 影响：Technical Validation 未闭环前不开始 OAuth Kotlin 实现。
