@@ -2,6 +2,23 @@
 
 ## 2026-07-18
 
+### Sprint 2.5: Pinterest API Definition
+
+- 依据官方分页结构，新增了 `PageDto` 泛型包装（包含 `items` 列表和 `bookmark` 分页标记），其余字段保留 TODO 等待核实。
+- 在 `PinterestApi.kt` 中声明了 6 个基础 Endpoint（用户、画板列表、画板详情、画板 Pin 列表、Pin 列表、Pin 详情），并附带对应官方文档的 `@see` 链接。
+- 所有 Query 参数（`bookmark`、`page_size`）均严格遵照官方 API Reference。
+- 遵循架构边界，不涉及任何 Auth 或业务实现。
+
+
+### Sprint 2: Networking Foundation
+
+- 引入 Retrofit (3.0.0)、OkHttp BOM (4.12.0) 及 Kotlinx Serialization Converter 依赖。
+- 创建领域级网络异常基类 `NetworkException` 及子类，放置于 `core/network/exception` 包。
+- 创建拆解后的网络核心组件 `JsonProvider`、`OkHttpProvider` 和 `RetrofitProvider`。
+- 配置了包含忽略未知字段等的安全 Json 解析策略，及 Debug 模式下的 `HttpLoggingInterceptor`。
+- 创建空的 `PinterestApi` 接口存根。
+
+
 ### Sprint 1.5: Project Cleanup
 
 - 将包名从 `com.example.android.wearable.composestarter` 成功迁移至 `com.wear.pin`。

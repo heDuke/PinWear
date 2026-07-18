@@ -176,6 +176,22 @@ MVP 不实现：
 - [x] 清理 DTO 猜测字段，仅保留确切字段或 TODO。
 - [x] 梳理 Starter 遗留代码清单，纳入后续清理计划。
 
+### Sprint 2: Networking Foundation
+
+- [x] 引入 Retrofit 3.0.0, OkHttp BOM 及 Kotlinx Serialization Converter 依赖。
+- [x] 创建 `NetworkException` 基类层级。
+- [x] 建立拆分后的 `JsonProvider`、`OkHttpProvider` 和 `RetrofitProvider`。
+- [x] 启用 Debug 下的 HttpLoggingInterceptor，Release 关闭。
+- [x] 配置安全的 Json 序列化策略。
+- [x] 创建空的 `PinterestApi` 接口。
+
+### Sprint 2.5: Pinterest API Definition
+
+- [x] 创建严格基于官方 API 分页包装的 `PageDto`（包含 `items` 与 `bookmark`）。
+- [x] 在 `PinterestApi.kt` 中添加 6 个核心 Endpoint 定义（`/v5/user_account`, `/v5/boards`, `/v5/boards/{id}`, `/v5/boards/{id}/pins`, `/v5/pins`, `/v5/pins/{id}`）。
+- [x] Endpoint 参数严格遵循官方指定的 `bookmark` 与 `page_size` Query 参数，并补充官方文档链接注释。
+- [x] 保证其余 DTO 仅保持为 TODO，不加入未经核实的猜测字段。
+
 ### v0.3：Boards
 
 - [ ] 核验 `user_account`、`boards` API 官方契约。
@@ -213,9 +229,9 @@ MVP 不实现：
 
 ## 当前阶段
 
-当前处于 **Sprint 1.5: Project Cleanup** 阶段，已完成包名迁移、DTO 字段清理和遗留代码梳理。
+当前处于 **Sprint 2.5: Pinterest API Definition** 阶段，已完成基础网络组件及 6 个核心官方 API 接口的 Retrofit 签名声明。
 
-下一阶段即将进入具体的业务模块开发或基础建设。
+下一阶段即将进入 Auth 机制及持久化存储相关的基础建设或业务模块开发。
 
 ## Todo
 
@@ -228,6 +244,8 @@ MVP 不实现：
 - [x] 完成架构设计和技术验证中的【已决策】事项。
 - [x] 完成 Sprint 1 Project Skeleton 骨架代码搭建。
 - [x] 完成 Sprint 1.5 Project Cleanup 基础清理。
+- [x] 完成 Sprint 2 Networking Foundation 基础建设。
+- [x] 完成 Sprint 2.5 Pinterest API Definition。
 - [ ] 确认 OAuth 回调、权限范围和 Token 生命周期。
 - [ ] 确认 PKCE 结论和原生客户端认证模式。
 - [ ] 完成 endpoint 级别的 API Reference 核对。
@@ -246,7 +264,7 @@ MVP 不实现：
 
 ## 下一阶段
 
-Sprint 1.5: Project Cleanup 已完成；下一步进入具体的开发迭代。
+Sprint 2.5: Pinterest API Definition 已完成；下一步准备进入 Auth 机制及持久化等开发迭代。
 
 进入具体的 OAuth 或 API 业务前，需要：
 
