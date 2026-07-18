@@ -32,6 +32,18 @@
 
 ## 验证策略
 
+### MVP 业务流程验证
+
+MVP 需要覆盖以下主流程：
+
+- Pinterest OAuth 登录成功、取消、失败和重新登录。
+- 获取并展示用户 Boards。
+- 获取并展示 Board 中的 Pins。
+- 展示 Pin 图片和 Pin 详情。
+- 打开 Pinterest 官方页面。
+
+所有 API 测试必须使用官方 API 契约或受控测试替身，不得使用私有 API、抓包结果或 Reverse Engineering 结果。
+
 ### UI 视觉验证
 
 - 运行现有 Roborazzi 记录或验证任务。
@@ -51,6 +63,8 @@
 
 如果后续引入 ViewModel 或业务逻辑，应增加不依赖 Android UI 的单元测试，覆盖成功、空数据、失败、取消和重试场景（适用时）。
 
+Repository 测试应覆盖认证、HTTP 错误、限流、分页和数据映射；具体错误码和响应字段以 Pinterest 官方文档核验结果为准。
+
 ### 构建验证
 
 - Debug：`./gradlew build lintDebug`
@@ -65,8 +79,10 @@ CI 当前在 Gradle 命令中显式关闭 Configuration Cache，以规避现有 
 - 没有业务逻辑测试。
 - 没有 ViewModel 测试。
 - 没有 API、数据库或同步测试。
+- 没有 OAuth、Boards、Pins 或 Pin Detail 业务测试。
 - 没有正式设备上的自动化测试矩阵。
 - Release 正式签名流程尚未配置。
+- 没有 Pinterest 官方 API 合规检查清单。
 
 ## 验收要求
 
@@ -77,4 +93,3 @@ CI 当前在 Gradle 命令中显式关闭 Configuration Cache，以规避现有 
 - 错误与恢复路径。
 - Wear OS 不同尺寸和字体缩放表现。
 - 自动化测试或明确的人工验证步骤。
-

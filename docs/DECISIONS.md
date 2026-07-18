@@ -34,9 +34,32 @@
 
 ## 待决策
 
-- PinWear 的产品定位和首个核心流程。【待确认】
-- 是否需要移动端配套、远程 API、账号和数据同步。【待确认】
-- 是否需要引入 ViewModel、Repository 和本地持久化。【待确认】
+- Pinterest 官方 OAuth 的回调、权限和 Token 策略。【待确认】
+- Pinterest 官方 API 的字段、分页、限流和审核约束。【待确认】
+- Pin 详情、图片加载和官方页面打开的具体 UI 行为。【待确认】
 - 工程命名、namespace 和包名是否统一调整。【待确认】
 - 正式签名、发布渠道和版本号策略。【待确认】
 
+## ADR-0005：产品范围限定为 Pinterest 官方 API 浏览客户端
+
+- 日期：2026-07-18
+- 状态：已确认
+- 决策：PinWear 面向 Wear OS，MVP 仅支持 Pinterest 登录、Boards、Pins、Pin 图片、Pin 详情和打开官方页面。
+- 背景：产品定义已明确不实现推荐、社交、创作和内容修改能力。
+- 影响：所有超出浏览范围的需求必须单独确认，不得默认加入 MVP。
+
+## ADR-0006：仅使用 Pinterest 官方 API
+
+- 日期：2026-07-18
+- 状态：已确认
+- 决策：禁止使用私有 API、Reverse Engineering、抓包和非官方接口，并遵守 Pinterest Developer Guidelines。
+- 背景：这是产品定义中的硬性边界。
+- 影响：API 能力、权限和页面行为必须以 Pinterest 官方文档可验证内容为依据。
+
+## ADR-0007：目标架构采用 MVVM
+
+- 日期：2026-07-18
+- 状态：已确认目标
+- 决策：目标数据流为 Presentation → ViewModel → Repository → Retrofit/OkHttp → Pinterest API，Screen 不得直接访问 API。
+- 背景：需要隔离 Wear OS UI 与远程数据访问。
+- 影响：当前 Starter UI 不立即重构；在 v0.2 OAuth 阶段按最小需求逐步引入。

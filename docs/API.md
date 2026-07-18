@@ -2,15 +2,41 @@
 
 ## 当前状态
 
-当前项目没有已确认的远程 API、数据库接口或业务服务接口。现有代码只包含本地 UI 回调，例如页面导航和 Dialog 的确认/取消回调。
+产品定义已确认 PinWear 仅使用 Pinterest 官方 API，目标架构为：
 
-不能根据当前模板代码推断 PinWear 的后端、账号、数据同步或认证需求；这些内容为【待确认】。
+```text
+Presentation → ViewModel → Repository → Retrofit/OkHttp → Pinterest Official API
+```
+
+当前代码尚未实现远程 API、OAuth、Repository、ViewModel 或网络客户端。以下为计划接口，不代表已经接入。
+
+## 官方 API 边界
+
+- 仅允许使用 Pinterest 官方 API。
+- 必须遵守 Pinterest Developer Guidelines。
+- 禁止私有 API、Reverse Engineering、抓包和非官方接口。
+- 具体权限、字段、版本、限流和审核要求以 Pinterest 官方文档为准。
+
+## MVP 计划接口
+
+- OAuth：Pinterest 用户登录和授权。
+- `GET /v5/user_account`：获取当前用户账号信息。
+- `GET /v5/boards`：获取用户 Boards。
+- `GET /v5/boards/{board_id}`：获取单个 Board。
+- `GET /v5/boards/{board_id}/pins`：获取 Board 中的 Pins。
+- `GET /v5/pins`：MVP 计划使用的 Pins 查询接口，具体调用场景为【待确认】。
+- `GET /v5/pins/{pin_id}`：获取单个 Pin 详情。
+
+后续版本再评估：
+
+- Search
+- Save Pin
 
 ## 规划原则
 
 如果后续引入 API，必须先确认并记录：
 
-- API 的用途和用户流程。
+- API 的用途和用户流程必须符合 `PROJECT_CONTEXT.md` 的 MVP 范围。
 - Base URL 和环境划分。
 - HTTP 方法、路径和请求参数。
 - 请求及响应数据模型。
@@ -32,8 +58,7 @@
 
 ## 待确认事项
 
-- 是否需要远程 API？
-- 数据由手表本地生成、手机端提供还是服务器提供？
-- 是否需要用户身份和授权？
-- 是否需要数据同步？
-
+- Pinterest OAuth 的回调方式、权限范围和 Token 生命周期。【待确认】
+- 官方 API 的字段、分页、限流、错误和审核约束。【待确认】
+- `GET /v5/pins` 在 MVP 中的具体使用场景。【待确认】
+- 打开 Pinterest 官方页面的链接格式和 Wear OS 行为。【待确认】

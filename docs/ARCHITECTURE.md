@@ -54,7 +54,32 @@ ListNavScreen / ListScreen
 - Database/local persistence
 - Shared mobile companion module
 
-是否需要这些层取决于【待确认】的产品需求，不在 Bootstrap 阶段创建。
+## 最终目标架构
+
+PinWear 的产品定义确认采用 MVVM，目标数据流为：
+
+```text
+Presentation
+      ↓
+ViewModel
+      ↓
+Repository
+      ↓
+Retrofit / OkHttp
+      ↓
+Pinterest Official API
+```
+
+约束：
+
+- Screen 不得直接访问 API。
+- ViewModel 负责 UI 状态、事件和生命周期协调。
+- Repository 负责 Pinterest 数据访问抽象。
+- Retrofit/OkHttp 只通过 Repository 被使用。
+- Pinterest 官方 API 是唯一远程数据来源。
+- 不开发手机端应用。
+
+具体模块拆分、OAuth 组件边界和模型包结构在 v0.2 OAuth 阶段设计前为【待确认】。
 
 ## 架构约束
 
@@ -62,4 +87,4 @@ ListNavScreen / ListScreen
 - UI 组件不应承担数据访问和业务决策。
 - 页面状态复杂到需要跨重组、配置变化或异步协调时，再引入 ViewModel。
 - 新模块或跨模块架构变更必须先完成方案确认。
-
+- 不引入 Pinterest 私有 API、Reverse Engineering 或抓包逻辑。
