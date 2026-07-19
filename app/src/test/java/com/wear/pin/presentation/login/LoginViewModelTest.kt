@@ -6,12 +6,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -40,27 +41,29 @@ class LoginViewModelTest {
         }
 
     @Test
-    fun `onLoginClicked transitions state to Loading then Authenticated`() =
+    fun `onLoginClicked emits OpenBrowser event and does not authenticate`() =
         runTest {
             val repository = FakeAuthRepository()
             val viewModel = LoginViewModel(repository)
 
-            // Launch a coroutine to collect uiState to keep the StateFlow active
+            val events = mutableListOf<LoginUiEvent>()
             val job =
                 launch {
-                    viewModel.uiState.collect {}
+                    viewModel.uiEvent.collect { events.add(it) }
                 }
 
             // Trigger login
             viewModel.onLoginClicked()
 
-            // Wait a little bit for the loading state to be emitted
-            advanceTimeBy(100)
-            assertEquals(LoginUiState.Loading, viewModel.uiState.value)
+            // Wait for the coroutine in onLoginClicked to complete
+            advanceUntilIdle()
 
-            // Advance time by the FakeAuthRepository delay (2000ms)
-            advanceTimeBy(2000)
-            assertEquals(LoginUiState.Authenticated, viewModel.uiState.value)
+            // Verify OpenBrowser event was emitted
+            assertEquals(1, events.size)
+            assertTrue(events[0] is LoginUiEvent.OpenBrowser)
+
+            // Verify state remains Unauthenticated
+            assertEquals(LoginUiState.Unauthenticated, viewModel.uiState.value)
 
             job.cancel()
         }
