@@ -1,5 +1,11 @@
 # 变更日志
 
+## [Unreleased]
+
+### Added
+
+- **Sprint 4F (Authenticated Session)**: Implemented complete session lifecycle, including token expiration checks (`isExpired`), cold-start restoration (`restoreSession`), and auto-refresh mechanisms (`getValidToken`, `refreshToken`) via Retrofit and DataStore.
+
 ## 2026-07-18
 
 ### Sprint 4E: Secure Token Persistence

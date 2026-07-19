@@ -237,7 +237,7 @@ MVP 不实现：
 
 ## 当前阶段
 
-当前处于 **Sprint 4F: Authenticated Session** 阶段，准备进入 Session 生命周期管理、Token 有效性判断、Refresh Token 流程以及应用冷启动后的完整认证恢复。
+当前处于 **Post-Sprint Optimization / Business API (User/Boards)** 阶段，认证模块基本成型，开始转向基础建设完善及业务功能开发。
 
 ## Todo
 
@@ -255,7 +255,7 @@ MVP 不实现：
 - [x] 完成 Sprint 3 系列 (Authentication Foundation & Login UI)。
 - [x] 完成 Sprint 4A~4D (OAuth 回调与 Token Exchange 流程)。
 - [x] 完成 Sprint 4E (Secure Token Persistence)。
-- [ ] 完成 Sprint 4F (Authenticated Session)。
+- [x] 完成 Sprint 4F (Authenticated Session)。
 - [ ] 确认 OAuth 权限范围和 Token 生命周期细节。
 - [ ] 完成 endpoint 级别的 API Reference 核对。
 - [ ] 处理或评估现有 Starter 模板残留。
@@ -274,7 +274,7 @@ MVP 不实现：
 
 ## 下一阶段
 
-Sprint 4E (Secure Token Persistence) 已完成；下一步将进入 Sprint 4F (Authenticated Session) 的设计与开发。
+Sprint 4F (Authenticated Session) 已完成；下一步将进入 Post-Sprint Optimization (如 BuildConfig 参数化) 或直接进入业务接口 (User/Boards) 开发。
 
 ## 风险
 
