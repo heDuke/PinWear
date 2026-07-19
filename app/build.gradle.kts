@@ -80,6 +80,7 @@ dependencies {
     // General compose dependencies
     implementation(composeBom)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Compose for Wear OS Dependencies
     // NOTE: DO NOT INCLUDE a dependency on androidx.compose.material:material.

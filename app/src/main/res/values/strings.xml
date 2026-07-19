@@ -23,4 +23,6 @@
     <string name="example_card_title">Example Title</string>
     <string name="example_card_content">Example Content\nMore Lines\nAnd More</string>
     <string name="example_button_text">Example Button</string>
+    <string name="login_button">Login with Pinterest</string>
+    <string name="login_success">Authenticated!</string>
 </resources>
