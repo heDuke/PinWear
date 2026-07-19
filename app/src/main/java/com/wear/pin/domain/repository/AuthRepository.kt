@@ -33,6 +33,14 @@ interface AuthRepository {
     )
 
     /**
+     * Exchanges the authorization code for an access token.
+     *
+     * @param code The authorization code received from the callback.
+     * @return The OAuthToken if successful.
+     */
+    suspend fun exchangeCodeForToken(code: String): Result<com.wear.pin.domain.model.OAuthToken>
+
+    /**
      * Initiates the login process.
      * In this Sprint, this is a placeholder for future OAuth integration.
      */

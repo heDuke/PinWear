@@ -1,10 +1,15 @@
 package com.wear.pin.data.remote.pinterest.api
 
 import com.wear.pin.data.remote.pinterest.dto.BoardDto
+import com.wear.pin.data.remote.pinterest.dto.OAuthTokenResponseDto
 import com.wear.pin.data.remote.pinterest.dto.PageDto
 import com.wear.pin.data.remote.pinterest.dto.PinDto
 import com.wear.pin.data.remote.pinterest.dto.UserDto
+import retrofit2.http.FieldMap
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -75,4 +80,16 @@ interface PinterestApi {
     suspend fun getPin(
         @Path("pin_id") pinId: String
     ): PinDto
+
+    /**
+     * Exchange authorization code for an access token.
+     *
+     * @see <a href="https://developers.pinterest.com/docs/api/v5/#operation/oauth/token">Pinterest API: OAuth Token</a>
+     */
+    @FormUrlEncoded
+    @POST("v5/oauth/token")
+    suspend fun exchangeToken(
+        @Header("Authorization") authorization: String,
+        @FieldMap fields: Map<String, String>
+    ): OAuthTokenResponseDto
 }

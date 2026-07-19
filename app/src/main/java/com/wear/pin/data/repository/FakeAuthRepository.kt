@@ -47,6 +47,20 @@ class FakeAuthRepository(
         }
     }
 
+    override suspend fun exchangeCodeForToken(
+        code: String
+    ): Result<com.wear.pin.domain.model.OAuthToken> =
+        Result.success(
+            com.wear.pin.domain.model.OAuthToken(
+                accessToken = "fake_access_token_for_code_$code",
+                tokenType = "bearer",
+                expiresIn = 2592000L,
+                scope = "user_accounts:read boards:read pins:read",
+                refreshToken = "fake_refresh_token",
+                refreshTokenExpiresIn = 5184000L
+            )
+        )
+
     override suspend fun login() {
         // Simulate network/processing delay
         _authState.value = AuthState.Loading
