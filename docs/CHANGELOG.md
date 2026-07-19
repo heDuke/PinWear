@@ -2,6 +2,12 @@
 
 ## 2026-07-18
 
+### Sprint 4E: Secure Token Persistence
+
+- 创建了 `CryptoManager` 利用 Android Keystore 进行对称加密 (AES/GCM/NoPadding)。
+- 创建了 `DataStoreTokenStorage` 利用 `androidx.datastore:datastore-preferences` 安全地持久化加密后的 OAuth Token。
+- 更新了 `AuthRepositoryImpl` 以在 `exchangeCodeForToken` 后持久化 Token，并实现了应用启动时的 `restoreSession`。
+
 ### Project Configuration Updates
 
 - 将 `compileSdk` 升级至 `37` 以便与 `targetSdk` (37) 保持一致。

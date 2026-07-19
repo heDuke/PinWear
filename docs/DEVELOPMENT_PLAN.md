@@ -237,9 +237,7 @@ MVP 不实现：
 
 ## 当前阶段
 
-当前处于 **Sprint 3A: Authentication Foundation** 阶段，已完成基础认证抽象、存储接口和工具类的搭建，准备进入 UI 层面的登录页面开发。
-
-下一阶段即将进入 UI 侧的登录界面和状态管理。
+当前处于 **Sprint 4F: Authenticated Session** 阶段，准备进入 Session 生命周期管理、Token 有效性判断、Refresh Token 流程以及应用冷启动后的完整认证恢复。
 
 ## Todo
 
@@ -254,9 +252,11 @@ MVP 不实现：
 - [x] 完成 Sprint 1.5 Project Cleanup 基础清理。
 - [x] 完成 Sprint 2 Networking Foundation 基础建设。
 - [x] 完成 Sprint 2.5 Pinterest API Definition。
-- [x] 完成 Sprint 3A Authentication Foundation。
-- [ ] 确认 OAuth 回调、权限范围和 Token 生命周期。
-- [ ] 确认 PKCE 结论和原生客户端认证模式。
+- [x] 完成 Sprint 3 系列 (Authentication Foundation & Login UI)。
+- [x] 完成 Sprint 4A~4D (OAuth 回调与 Token Exchange 流程)。
+- [x] 完成 Sprint 4E (Secure Token Persistence)。
+- [ ] 完成 Sprint 4F (Authenticated Session)。
+- [ ] 确认 OAuth 权限范围和 Token 生命周期细节。
 - [ ] 完成 endpoint 级别的 API Reference 核对。
 - [ ] 处理或评估现有 Starter 模板残留。
 - [ ] 确认正式签名和发布策略。
@@ -270,18 +270,11 @@ MVP 不实现：
 - [x] 记录目标 MVVM 分层架构。
 - [x] 记录目标目录、数据模型、Repository、ViewModel、导航、状态和错误处理。
 - [x] 记录现有测试矩阵和 CI/Release 流程。
+- [x] 完成 OAuth 数据层隔离与 Token 持久化。
 
 ## 下一阶段
 
-Sprint 3A: Authentication Foundation 已完成；下一步准备进入 Auth 相关的 UI 层开发。
-
-进入真实的 OAuth 流程前，仍然需要：
-
-- Pinterest 官方 OAuth 文档核验。
-- Pinterest Developer Guidelines 合规核验。
-- OAuth 回调和权限确认。
-- Token 安全存储和生命周期确认。
-- OAuth API 契约和测试方案确认。
+Sprint 4E (Secure Token Persistence) 已完成；下一步将进入 Sprint 4F (Authenticated Session) 的设计与开发。
 
 ## 风险
 
