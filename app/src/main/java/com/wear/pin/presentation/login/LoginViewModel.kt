@@ -42,7 +42,11 @@ class LoginViewModel(
                 // Note: authRepository.login() is skipped in Sprint 4A as we delegate auth to Browser
             } catch (e: Exception) {
                 // E.g. URL building failed or other unexpected errors
-                _uiEvent.send(LoginUiEvent.ShowError(e.message ?: "Failed to build authorization URL"))
+                _uiEvent.send(
+                    LoginUiEvent.ShowError(
+                        e.message ?: "Failed to build authorization URL"
+                    )
+                )
             }
         }
     }

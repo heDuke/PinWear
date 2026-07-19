@@ -34,13 +34,19 @@ fun LoginScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is LoginUiEvent.OpenBrowser -> {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.url)).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
+                    val intent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(event.url)).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
                     if (intent.resolveActivity(context.packageManager) != null) {
                         context.startActivity(intent)
                     } else {
-                        Toast.makeText(context, "No browser found to open authorization page", Toast.LENGTH_SHORT).show()
+                        Toast
+                            .makeText(
+                                context,
+                                "No browser found to open authorization page",
+                                Toast.LENGTH_SHORT
+                            ).show()
                     }
                 }
                 is LoginUiEvent.ShowError -> {

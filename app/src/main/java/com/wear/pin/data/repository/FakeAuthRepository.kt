@@ -22,12 +22,29 @@ class FakeAuthRepository(
 
     override fun getAuthState(): Flow<AuthState> = _authState.asStateFlow()
 
-    override fun buildAuthorizationUrl(): String {
-        return urlBuilder.buildUrl(
-            clientId = AuthConfig.CLIENT_ID, 
+    override fun buildAuthorizationUrl(): String =
+        urlBuilder.buildUrl(
+            clientId = AuthConfig.CLIENT_ID,
             redirectUri = AuthConfig.REDIRECT_URI,
             state = stateGenerator.generateState()
         )
+
+    override suspend fun handleAuthorizationResponse(
+        code: String?,
+        state: String?,
+        error: String?
+    ) {
+        // In Sprint 4B, we do NOT change the AuthState to Authenticated here.
+        // Receiving an authorization code is just the first step.
+        // Token Exchange will happen in Sprint 4C.
+
+        // TODO(Sprint 4C): Validate that the received 'state' matches the one generated during buildAuthorizationUrl().
+
+        // For now, just temporarily hold or log the result.
+        // If there is an error, we might want to update the state to Unauthenticated or an Error state.
+        if (error != null) {
+            _authState.value = AuthState.Unauthenticated
+        }
     }
 
     override suspend fun login() {

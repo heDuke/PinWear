@@ -35,10 +35,14 @@ sealed interface LoginUiEvent {
     /**
      * Event to open the browser with the given OAuth URL.
      */
-    data class OpenBrowser(val url: String) : LoginUiEvent
+    data class OpenBrowser(
+        val url: String
+    ) : LoginUiEvent
 
     /**
      * Event to show an error message (e.g. via Toast).
      */
-    data class ShowError(val message: String) : LoginUiEvent
+    data class ShowError(
+        val message: String
+    ) : LoginUiEvent
 }

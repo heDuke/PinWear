@@ -20,6 +20,19 @@ interface AuthRepository {
     fun buildAuthorizationUrl(): String
 
     /**
+     * Handles the OAuth callback response.
+     *
+     * @param code The authorization code, if successful.
+     * @param state The state string.
+     * @param error The error message, if failed.
+     */
+    suspend fun handleAuthorizationResponse(
+        code: String?,
+        state: String?,
+        error: String?
+    )
+
+    /**
      * Initiates the login process.
      * In this Sprint, this is a placeholder for future OAuth integration.
      */

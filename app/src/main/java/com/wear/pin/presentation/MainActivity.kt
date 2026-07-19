@@ -1,10 +1,12 @@
 package com.wear.pin.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -12,10 +14,12 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.navigation3.rememberSwipeDismissableSceneStrategy
+import com.wear.pin.core.auth.OAuthCallbackHandler
 import com.wear.pin.data.repository.FakeAuthRepository
 import com.wear.pin.presentation.login.LoginScreen
 import com.wear.pin.presentation.login.LoginViewModel
 import com.wear.pin.presentation.theme.WearAppTheme
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
@@ -26,6 +30,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WearApp(authRepository)
+        }
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val result = OAuthCallbackHandler.parseUri(intent?.data)
+        if (result != null) {
+            lifecycleScope.launch {
+                authRepository.handleAuthorizationResponse(result.code, result.state, result.error)
+            }
         }
     }
 }
