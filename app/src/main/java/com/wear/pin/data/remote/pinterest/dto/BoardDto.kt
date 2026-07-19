@@ -1,9 +1,12 @@
 package com.wear.pin.data.remote.pinterest.dto
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class BoardDto(
-    // TODO: 待官方 API Reference 核验具体字段，不得根据 Domain Model 推测
-    val _placeholder: String? = null
+    @SerialName("id") val id: String? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("privacy") val privacy: String? = null
 )

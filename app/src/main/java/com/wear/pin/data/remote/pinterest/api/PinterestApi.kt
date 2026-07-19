@@ -36,8 +36,9 @@ interface PinterestApi {
      */
     @GET("v5/boards")
     suspend fun getBoards(
+        @Header("Authorization") authorization: String,
         @Query("bookmark") bookmark: String? = null,
-        @Query("page_size") pageSize: Int? = null
+        @Query("page_size") pageSize: Int = 25
     ): PageDto<BoardDto>
 
     /**

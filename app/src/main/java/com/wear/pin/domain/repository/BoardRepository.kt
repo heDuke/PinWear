@@ -1,5 +1,10 @@
 package com.wear.pin.domain.repository
 
+import com.wear.pin.domain.model.BoardPage
+
 interface BoardRepository {
-    // TODO: Define board-related methods
+    suspend fun getBoards(
+        bookmark: String? = null,
+        pageSize: Int = 25
+    ): Result<BoardPage>
 }
