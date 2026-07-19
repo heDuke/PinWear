@@ -25,7 +25,9 @@ interface PinterestApi {
      * @see <a href="https://developers.pinterest.com/docs/api/v5/#operation/user_account/get">Pinterest API: Get user account</a>
      */
     @GET("v5/user_account")
-    suspend fun getUserAccount(): UserDto
+    suspend fun getUserAccount(
+        @Header("Authorization") authorization: String
+    ): UserDto
 
     /**
      * List boards
