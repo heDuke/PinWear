@@ -58,6 +58,7 @@ interface PinterestApi {
      */
     @GET("v5/boards/{board_id}/pins")
     suspend fun getBoardPins(
+        @Header("Authorization") authorization: String,
         @Path("board_id") boardId: String,
         @Query("bookmark") bookmark: String? = null,
         @Query("page_size") pageSize: Int? = null

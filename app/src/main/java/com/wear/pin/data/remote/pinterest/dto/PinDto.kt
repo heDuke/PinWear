@@ -1,9 +1,23 @@
 package com.wear.pin.data.remote.pinterest.dto
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class PinDto(
-    // TODO: 待官方 API Reference 核验具体字段，不得根据 Domain Model 推测
-    val _placeholder: String? = null
+    @SerialName("id") val id: String? = null,
+    @SerialName("title") val title: String? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("link") val link: String? = null,
+    @SerialName("media") val media: PinMediaDto? = null
+)
+
+@Serializable
+data class PinMediaDto(
+    @SerialName("images") val images: Map<String, PinImageDto>? = null
+)
+
+@Serializable
+data class PinImageDto(
+    @SerialName("url") val url: String? = null
 )

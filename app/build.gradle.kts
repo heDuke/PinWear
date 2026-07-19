@@ -98,6 +98,10 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
 
+    // Image Loading
+    implementation(libs.coil3.compose)
+    implementation(libs.coil3.network.okhttp)
+
     // If you are using Compose Navigation, use the Wear OS version (NOT the
     // androidx.navigation:navigation-compose version), that is, uncomment the line below.
     implementation(libs.wear.compose.navigation3)

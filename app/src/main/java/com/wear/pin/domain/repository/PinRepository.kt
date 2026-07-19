@@ -1,5 +1,11 @@
 package com.wear.pin.domain.repository
 
+import com.wear.pin.domain.model.PinPage
+
 interface PinRepository {
-    // TODO: Define pin-related methods
+    suspend fun getBoardPins(
+        boardId: String,
+        bookmark: String? = null,
+        pageSize: Int = 25
+    ): Result<PinPage>
 }
