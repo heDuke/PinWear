@@ -24,7 +24,8 @@ private data class OAuthTokenEntity(
     val expiresIn: Long,
     val scope: String,
     val refreshToken: String?,
-    val refreshTokenExpiresIn: Long? = null
+    val refreshTokenExpiresIn: Long? = null,
+    val acquiredAt: Long
 )
 
 private val json = Json { ignoreUnknownKeys = true }
@@ -45,7 +46,8 @@ class DataStoreTokenStorage(
                 expiresIn = token.expiresIn,
                 scope = token.scope,
                 refreshToken = token.refreshToken,
-                refreshTokenExpiresIn = token.refreshTokenExpiresIn
+                refreshTokenExpiresIn = token.refreshTokenExpiresIn,
+                acquiredAt = token.acquiredAt
             )
         val jsonString = json.encodeToString(entity)
 
@@ -78,7 +80,8 @@ class DataStoreTokenStorage(
                 expiresIn = entity.expiresIn,
                 scope = entity.scope,
                 refreshToken = entity.refreshToken,
-                refreshTokenExpiresIn = entity.refreshTokenExpiresIn
+                refreshTokenExpiresIn = entity.refreshTokenExpiresIn,
+                acquiredAt = entity.acquiredAt
             )
         } catch (e: Exception) {
             Log.e("TokenStorage", "Error loading token", e)

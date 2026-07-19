@@ -44,12 +44,48 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun restoreSession() {
-        val token = tokenStorage.loadToken()
+        val token = getValidToken()
         if (token != null) {
             _authState.value = AuthState.Authenticated
         } else {
             _authState.value = AuthState.Unauthenticated
         }
+    }
+
+    override suspend fun getValidToken(): OAuthToken? {
+        val token = tokenStorage.loadToken() ?: return null
+
+        if (token.isExpired()) {
+            val refreshResult = refreshToken()
+            return refreshResult.getOrNull()
+        }
+
+        return token
+    }
+
+    override suspend fun refreshToken(): Result<OAuthToken> {
+        _authState.value = AuthState.Refreshing
+        val currentToken = tokenStorage.loadToken()
+
+        if (currentToken?.refreshToken == null) {
+            logout()
+            return Result.failure(IllegalStateException("No refresh token available"))
+        }
+
+        val result =
+            remoteDataSource
+                .refreshToken(currentToken.refreshToken)
+                .map { responseDto -> responseDto.toDomain() }
+
+        result
+            .onSuccess { newToken ->
+                tokenStorage.saveToken(newToken)
+                _authState.value = AuthState.Authenticated
+            }.onFailure {
+                logout()
+            }
+
+        return result
     }
 
     override suspend fun exchangeCodeForToken(code: String): Result<OAuthToken> {

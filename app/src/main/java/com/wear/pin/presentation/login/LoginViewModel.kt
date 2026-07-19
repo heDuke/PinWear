@@ -26,6 +26,7 @@ class LoginViewModel(
                 when (authState) {
                     is AuthState.Authenticated -> LoginUiState.Authenticated
                     is AuthState.Loading -> LoginUiState.Loading
+                    is AuthState.Refreshing -> LoginUiState.Loading
                     is AuthState.Unauthenticated -> LoginUiState.Unauthenticated
                 }
             }.stateIn(

@@ -1,6 +1,7 @@
 package com.wear.pin.domain.repository
 
 import com.wear.pin.domain.model.AuthState
+import com.wear.pin.domain.model.OAuthToken
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -42,9 +43,21 @@ interface AuthRepository {
 
     /**
      * Checks the local token to restore the session on app startup.
-     * Note (Sprint 4E): This only checks presence, not validity.
+     * Note (Sprint 4E/4F): Restores and verifies expiration.
      */
     suspend fun restoreSession()
+
+    /**
+     * Returns a valid OAuth token if available.
+     * If the current token is expired, this will attempt to refresh it.
+     * @return A valid OAuthToken, or null if unauthenticated or refresh fails.
+     */
+    suspend fun getValidToken(): OAuthToken?
+
+    /**
+     * Explicitly refreshes the current OAuth token.
+     */
+    suspend fun refreshToken(): Result<OAuthToken>
 
     /**
      * Initiates the login process.

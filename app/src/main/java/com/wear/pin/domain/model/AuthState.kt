@@ -5,9 +5,14 @@ package com.wear.pin.domain.model
  */
 sealed interface AuthState {
     /**
-     * User is authenticated.
+     * The app has a valid or newly acquired token and is authenticated.
      */
     data object Authenticated : AuthState
+
+    /**
+     * The app is currently refreshing an expired token.
+     */
+    data object Refreshing : AuthState
 
     /**
      * User is not authenticated.

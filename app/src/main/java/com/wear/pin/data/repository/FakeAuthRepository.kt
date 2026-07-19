@@ -4,6 +4,7 @@ import com.wear.pin.core.auth.AuthConfig
 import com.wear.pin.core.auth.OAuthStateGenerator
 import com.wear.pin.core.auth.OAuthUrlBuilder
 import com.wear.pin.domain.model.AuthState
+import com.wear.pin.domain.model.OAuthToken
 import com.wear.pin.domain.repository.AuthRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -64,6 +65,13 @@ class FakeAuthRepository(
     override suspend fun restoreSession() {
         // Mock implementation
     }
+
+    override suspend fun getValidToken(): OAuthToken? {
+        return null // Mock implementation
+    }
+
+    override suspend fun refreshToken(): Result<OAuthToken> =
+        Result.failure(Exception("Mock refresh failed"))
 
     override suspend fun login() {
         // Simulate network/processing delay

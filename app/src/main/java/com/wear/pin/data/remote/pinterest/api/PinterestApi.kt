@@ -92,4 +92,16 @@ interface PinterestApi {
         @Header("Authorization") authorization: String,
         @FieldMap fields: Map<String, String>
     ): OAuthTokenResponseDto
+
+    /**
+     * Refreshes an OAuth access token.
+     *
+     * @see <a href="https://developers.pinterest.com/docs/api/v5/#operation/oauth/token">Pinterest API: OAuth Token</a>
+     */
+    @FormUrlEncoded
+    @POST("v5/oauth/token")
+    suspend fun refreshToken(
+        @Header("Authorization") authorization: String,
+        @FieldMap fields: Map<String, String>
+    ): OAuthTokenResponseDto
 }

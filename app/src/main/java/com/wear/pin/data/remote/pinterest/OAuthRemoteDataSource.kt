@@ -3,7 +3,6 @@ package com.wear.pin.data.remote.pinterest
 import android.util.Base64
 import com.wear.pin.core.auth.AuthConfig
 import com.wear.pin.data.remote.pinterest.api.PinterestApi
-import com.wear.pin.data.remote.pinterest.dto.OAuthTokenRequestDto
 import com.wear.pin.data.remote.pinterest.dto.OAuthTokenResponseDto
 
 /**
@@ -16,20 +15,39 @@ class OAuthRemoteDataSource(
     private val clientSecret: String = AuthConfig.CLIENT_SECRET
 ) {
     /**
-     * Exchanges the authorization code for an access token by calling the Pinterest API.
-     * Maps underlying exceptions to Result.failure.
+     * Exchanges an authorization code for an OAuth token.
      */
     suspend fun exchangeToken(
         code: String,
         redirectUri: String
     ): Result<OAuthTokenResponseDto> =
         runCatching {
-            val credentials = "$clientId:$clientSecret"
-            // Use NO_WRAP to avoid newline characters which break HTTP headers
-            val authHeader =
-                "Basic " + Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
-
-            val requestDto = OAuthTokenRequestDto(code = code, redirectUri = redirectUri)
-            api.exchangeToken(authHeader, requestDto.toFieldMap())
+            val authHeader = getBasicAuthHeader()
+            val fields =
+                mapOf(
+                    "grant_type" to "authorization_code",
+                    "code" to code,
+                    "redirect_uri" to redirectUri
+                )
+            api.exchangeToken(authHeader, fields)
         }
+
+    /**
+     * Refreshes an OAuth token using the refresh token.
+     */
+    suspend fun refreshToken(refreshToken: String): Result<OAuthTokenResponseDto> =
+        runCatching {
+            val authHeader = getBasicAuthHeader()
+            val fields =
+                mapOf(
+                    "grant_type" to "refresh_token",
+                    "refresh_token" to refreshToken
+                )
+            api.refreshToken(authHeader, fields)
+        }
+
+    private fun getBasicAuthHeader(): String {
+        val credentials = "$clientId:$clientSecret"
+        return "Basic " + Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
+    }
 }
