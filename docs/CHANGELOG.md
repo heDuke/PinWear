@@ -24,6 +24,8 @@
 - 将包名从 `com.example.android.wearable.composestarter` 成功迁移至 `com.wear.pin`。
 - 清理所有 DTO 中的推测字段，添加了待官方 API Reference 核验的 TODO 标记，保证 DTO 与 Domain Model 解耦且不包含未经官方确认的字段。
 - 梳理并列出了 Starter 遗留代码（MainActivity 内的 Greeting、ListScreen 示例、字符串资源及对应单元测试），作为后续清理计划保留。
+- 替换 Compose Starter 默认应用图标为 PinWear 临时 Alpha 图标，删除了无用的 drawable 向量图背景/前景，仅使用 mipmap png，不影响 Manifest 结构。
+- 移除原 Compose Starter Sample 的 README 内容，重写并迁移为专属于 PinWear 的项目介绍文档。
 
 ### Sprint 1: Project Skeleton
 
