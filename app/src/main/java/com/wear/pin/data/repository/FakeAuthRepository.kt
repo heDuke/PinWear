@@ -61,6 +61,10 @@ class FakeAuthRepository(
             )
         )
 
+    override suspend fun restoreSession() {
+        // Mock implementation
+    }
+
     override suspend fun login() {
         // Simulate network/processing delay
         _authState.value = AuthState.Loading

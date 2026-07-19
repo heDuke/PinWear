@@ -41,6 +41,12 @@ interface AuthRepository {
     suspend fun exchangeCodeForToken(code: String): Result<com.wear.pin.domain.model.OAuthToken>
 
     /**
+     * Checks the local token to restore the session on app startup.
+     * Note (Sprint 4E): This only checks presence, not validity.
+     */
+    suspend fun restoreSession()
+
+    /**
      * Initiates the login process.
      * In this Sprint, this is a placeholder for future OAuth integration.
      */

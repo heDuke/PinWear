@@ -8,6 +8,7 @@ import com.wear.pin.data.remote.pinterest.OAuthRemoteDataSource
 import com.wear.pin.domain.model.AuthState
 import com.wear.pin.domain.model.OAuthToken
 import com.wear.pin.domain.repository.AuthRepository
+import com.wear.pin.domain.repository.TokenStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
  */
 class AuthRepositoryImpl(
     private val remoteDataSource: OAuthRemoteDataSource,
+    private val tokenStorage: TokenStorage,
     private val urlBuilder: OAuthUrlBuilder = OAuthUrlBuilder(),
     private val stateGenerator: OAuthStateGenerator = OAuthStateGenerator()
 ) : AuthRepository {
@@ -41,20 +43,35 @@ class AuthRepositoryImpl(
         // For this sprint, we do not update AuthState here (deferred to session management).
     }
 
-    override suspend fun exchangeCodeForToken(code: String): Result<OAuthToken> =
-        remoteDataSource
-            .exchangeToken(code, AuthConfig.REDIRECT_URI)
-            .map { responseDto ->
-                // Note (Sprint 4D): We are only fetching and mapping the token here.
-                // Token persistence (e.g. saving to DataStore) and State management will be implemented in Sprint 4E.
-                responseDto.toDomain()
-            }
+    override suspend fun restoreSession() {
+        val token = tokenStorage.loadToken()
+        if (token != null) {
+            _authState.value = AuthState.Authenticated
+        } else {
+            _authState.value = AuthState.Unauthenticated
+        }
+    }
+
+    override suspend fun exchangeCodeForToken(code: String): Result<OAuthToken> {
+        val result =
+            remoteDataSource
+                .exchangeToken(code, AuthConfig.REDIRECT_URI)
+                .map { responseDto -> responseDto.toDomain() }
+
+        result.onSuccess { token ->
+            tokenStorage.saveToken(token)
+            _authState.value = AuthState.Authenticated
+        }
+
+        return result
+    }
 
     override suspend fun login() {
         // Reserved for potential auto-login or session restoration in future sprints
     }
 
     override suspend fun logout() {
+        tokenStorage.clearToken()
         _authState.value = AuthState.Unauthenticated
     }
 }
