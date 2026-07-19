@@ -192,6 +192,14 @@ MVP 不实现：
 - [x] Endpoint 参数严格遵循官方指定的 `bookmark` 与 `page_size` Query 参数，并补充官方文档链接注释。
 - [x] 保证其余 DTO 仅保持为 TODO，不加入未经核实的猜测字段。
 
+### Sprint 3A: Authentication Foundation
+
+- [x] 创建 `AuthState` 模型和 `AuthRepository` 接口。
+- [x] 创建 `TokenStorage` 接口。
+- [x] 创建 `OAuthUrlBuilder` 和 `OAuthStateGenerator` 工具类。
+- [x] 创建 `FakeAuthRepository` 用于 UI 测试。
+- [x] 保持仅为接口定义或 Fake 实现，不涉及真实 Pinterest API。
+
 ### v0.3：Boards
 
 - [ ] 核验 `user_account`、`boards` API 官方契约。
@@ -229,9 +237,9 @@ MVP 不实现：
 
 ## 当前阶段
 
-当前处于 **Sprint 2.5: Pinterest API Definition** 阶段，已完成基础网络组件及 6 个核心官方 API 接口的 Retrofit 签名声明。
+当前处于 **Sprint 3A: Authentication Foundation** 阶段，已完成基础认证抽象、存储接口和工具类的搭建，准备进入 UI 层面的登录页面开发。
 
-下一阶段即将进入 Auth 机制及持久化存储相关的基础建设或业务模块开发。
+下一阶段即将进入 UI 侧的登录界面和状态管理。
 
 ## Todo
 
@@ -246,6 +254,7 @@ MVP 不实现：
 - [x] 完成 Sprint 1.5 Project Cleanup 基础清理。
 - [x] 完成 Sprint 2 Networking Foundation 基础建设。
 - [x] 完成 Sprint 2.5 Pinterest API Definition。
+- [x] 完成 Sprint 3A Authentication Foundation。
 - [ ] 确认 OAuth 回调、权限范围和 Token 生命周期。
 - [ ] 确认 PKCE 结论和原生客户端认证模式。
 - [ ] 完成 endpoint 级别的 API Reference 核对。
@@ -264,9 +273,9 @@ MVP 不实现：
 
 ## 下一阶段
 
-Sprint 2.5: Pinterest API Definition 已完成；下一步准备进入 Auth 机制及持久化等开发迭代。
+Sprint 3A: Authentication Foundation 已完成；下一步准备进入 Auth 相关的 UI 层开发。
 
-进入具体的 OAuth 或 API 业务前，需要：
+进入真实的 OAuth 流程前，仍然需要：
 
 - Pinterest 官方 OAuth 文档核验。
 - Pinterest Developer Guidelines 合规核验。

@@ -2,6 +2,14 @@
 
 ## 2026-07-18
 
+### Sprint 3A: Authentication Foundation
+
+- 创建了认证域抽象层：`AuthState` 模型和 `AuthRepository` 接口。
+- 设计并创建了本地安全存储接口 `TokenStorage`，为后续 Token 加密存储做准备。
+- 实现 OAuth 工具类：构建 Pinterest 授权 URL 的 `OAuthUrlBuilder` 和生成防跨站伪造随机状态的 `OAuthStateGenerator`（已替换掉对 Android framework/Robolectric 依赖）。
+- 实现了用于 UI 开发和测试的 `FakeAuthRepository` 占位，利用 `MutableStateFlow` 模拟了带延迟的登录/注销状态流，不直接调用真实 Pinterest API。
+- 添加并跑通了上述组件的单元测试（不再依赖 Robolectric）。
+
 ### Sprint 2.5: Pinterest API Definition
 
 - 依据官方分页结构，新增了 `PageDto` 泛型包装（包含 `items` 列表和 `bookmark` 分页标记），其余字段保留 TODO 等待核实。
