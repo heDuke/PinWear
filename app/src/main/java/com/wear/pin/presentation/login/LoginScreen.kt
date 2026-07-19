@@ -1,12 +1,17 @@
 package com.wear.pin.presentation.login
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -22,7 +27,28 @@ fun LoginScreen(
     viewModel: LoginViewModel,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(viewModel) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is LoginUiEvent.OpenBrowser -> {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.url)).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    if (intent.resolveActivity(context.packageManager) != null) {
+                        context.startActivity(intent)
+                    } else {
+                        Toast.makeText(context, "No browser found to open authorization page", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is LoginUiEvent.ShowError -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     Box(
         modifier = modifier.fillMaxSize(),

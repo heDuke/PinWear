@@ -5,15 +5,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.wear.pin.domain.model.AuthState
 import com.wear.pin.domain.repository.AuthRepository
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val authRepository: AuthRepository
 ) : ViewModel() {
+    private val _uiEvent = Channel<LoginUiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     val uiState: StateFlow<LoginUiState> =
         authRepository
             .getAuthState()
@@ -32,11 +37,12 @@ class LoginViewModel(
     fun onLoginClicked() {
         viewModelScope.launch {
             try {
-                authRepository.login()
+                val url = authRepository.buildAuthorizationUrl()
+                _uiEvent.send(LoginUiEvent.OpenBrowser(url))
+                // Note: authRepository.login() is skipped in Sprint 4A as we delegate auth to Browser
             } catch (e: Exception) {
-                // Since FakeAuthRepository currently does not throw, this is defensive.
-                // If it threw an error, we would map it to LoginUiState.Error through a more complex state mechanism,
-                // but for now the AuthState handles core states and we are not expecting exceptions from FakeAuthRepository login.
+                // E.g. URL building failed or other unexpected errors
+                _uiEvent.send(LoginUiEvent.ShowError(e.message ?: "Failed to build authorization URL"))
             }
         }
     }

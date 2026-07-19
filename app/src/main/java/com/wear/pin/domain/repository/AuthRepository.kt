@@ -13,6 +13,13 @@ interface AuthRepository {
     fun getAuthState(): Flow<AuthState>
 
     /**
+     * Builds the OAuth authorization URL.
+     *
+     * @return The complete authorization URL as a String.
+     */
+    fun buildAuthorizationUrl(): String
+
+    /**
      * Initiates the login process.
      * In this Sprint, this is a placeholder for future OAuth integration.
      */
