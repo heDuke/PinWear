@@ -48,6 +48,7 @@ interface PinterestApi {
      */
     @GET("v5/boards/{board_id}")
     suspend fun getBoard(
+        @Header("Authorization") authorization: String,
         @Path("board_id") boardId: String
     ): BoardDto
 
@@ -71,6 +72,7 @@ interface PinterestApi {
      */
     @GET("v5/pins")
     suspend fun getPins(
+        @Header("Authorization") authorization: String,
         @Query("bookmark") bookmark: String? = null,
         @Query("page_size") pageSize: Int? = null
     ): PageDto<PinDto>
@@ -82,6 +84,7 @@ interface PinterestApi {
      */
     @GET("v5/pins/{pin_id}")
     suspend fun getPin(
+        @Header("Authorization") authorization: String,
         @Path("pin_id") pinId: String
     ): PinDto
 

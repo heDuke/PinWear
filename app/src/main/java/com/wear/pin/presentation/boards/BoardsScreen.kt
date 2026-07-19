@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
@@ -24,9 +24,11 @@ import androidx.wear.compose.material3.Text
 @Composable
 fun BoardsScreen(
     viewModel: BoardsViewModel,
+    onBoardClick: (String) -> Unit,
+    onProfileClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val listState = rememberScalingLazyListState()
 
     LaunchedEffect(Unit) {
@@ -58,9 +60,17 @@ fun BoardsScreen(
                         state = listState,
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        item {
+                            androidx.wear.compose.material3.CompactButton(
+                                onClick = onProfileClick,
+                                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                            ) {
+                                Text("Profile")
+                            }
+                        }
                         items(state.boards) { board ->
                             Card(
-                                onClick = { /* TODO: Navigate to Pins */ },
+                                onClick = { onBoardClick(board.id) },
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text(

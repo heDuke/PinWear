@@ -1,6 +1,7 @@
 package com.wear.pin.presentation.boards
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.wear.pin.domain.repository.BoardRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,5 +32,18 @@ class BoardsViewModel(
                 }
             )
         }
+    }
+
+    companion object {
+        fun provideFactory(boardRepository: BoardRepository): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    if (modelClass.isAssignableFrom(BoardsViewModel::class.java)) {
+                        return BoardsViewModel(boardRepository) as T
+                    }
+                    throw IllegalArgumentException("Unknown ViewModel class")
+                }
+            }
     }
 }

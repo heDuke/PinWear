@@ -12,6 +12,8 @@ import com.wear.pin.domain.repository.TokenStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * Real implementation of AuthRepository that interacts with Pinterest OAuth API.
@@ -23,24 +25,37 @@ class AuthRepositoryImpl(
     private val stateGenerator: OAuthStateGenerator = OAuthStateGenerator()
 ) : AuthRepository {
     private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
+    private val refreshMutex = Mutex()
+    private var pendingOAuthState: String? = null
 
     override fun getAuthState(): Flow<AuthState> = _authState.asStateFlow()
 
-    override fun buildAuthorizationUrl(): String =
-        urlBuilder.buildUrl(
+    override fun buildAuthorizationUrl(): String {
+        val state = stateGenerator.generateState()
+        pendingOAuthState = state
+        return urlBuilder.buildUrl(
             clientId = AuthConfig.CLIENT_ID,
             redirectUri = AuthConfig.REDIRECT_URI,
-            state = stateGenerator.generateState()
+            state = state
         )
+    }
 
     override suspend fun handleAuthorizationResponse(
         code: String?,
         state: String?,
         error: String?
     ) {
-        // Sprint 4D: state verification is deferred to actual token exchange logic if needed,
-        // or handled by throwing/mapping errors here.
-        // For this sprint, we do not update AuthState here (deferred to session management).
+        if (state != pendingOAuthState) {
+            _authState.value = AuthState.Unauthenticated
+            return
+        }
+        pendingOAuthState = null
+
+        if (code != null) {
+            exchangeCodeForToken(code)
+        } else {
+            _authState.value = AuthState.Unauthenticated
+        }
     }
 
     override suspend fun restoreSession() {
@@ -52,18 +67,24 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun getValidToken(): OAuthToken? {
-        val token = tokenStorage.loadToken() ?: return null
+    override suspend fun getValidToken(): OAuthToken? =
+        refreshMutex.withLock {
+            val token = tokenStorage.loadToken() ?: return@withLock null
 
-        if (token.isExpired()) {
-            val refreshResult = refreshToken()
-            return refreshResult.getOrNull()
+            if (token.isExpired()) {
+                val refreshResult = refreshTokenInternal()
+                return@withLock refreshResult.getOrNull()
+            }
+
+            return@withLock token
         }
 
-        return token
-    }
+    override suspend fun refreshToken(): Result<OAuthToken> =
+        refreshMutex.withLock {
+            refreshTokenInternal()
+        }
 
-    override suspend fun refreshToken(): Result<OAuthToken> {
+    private suspend fun refreshTokenInternal(): Result<OAuthToken> {
         _authState.value = AuthState.Refreshing
         val currentToken = tokenStorage.loadToken()
 
