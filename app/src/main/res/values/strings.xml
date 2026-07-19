@@ -12,7 +12,7 @@
      limitations under the License.
 -->
 <resources>
-    <string name="app_name">ComposeStarter</string>
+    <string name="app_name">PinWear</string>
 
     <string name="hello_world">From the Round world,\nHello, %1$s!</string>
     <string name="show_list">Show list</string>

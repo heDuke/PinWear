@@ -2,6 +2,13 @@
 
 ## 2026-07-18
 
+### Project Configuration Updates
+
+- 将 `compileSdk` 升级至 `37` 以便与 `targetSdk` (37) 保持一致。
+- 正式将 `okhttp` 升级至 `5.4.0`。
+- 正式将 `lifecycle-viewmodel-compose` 升级至 `2.11.0`。
+- 修正 `strings.xml` 中遗留的 `app_name` 为 `PinWear`。
+
 ### Sprint 3A: Authentication Foundation
 
 - 创建了认证域抽象层：`AuthState` 模型和 `AuthRepository` 接口。
