@@ -28,10 +28,10 @@ The current Minimum Viable Product (MVP) goals include:
 - [ ] OAuth Technical Validation (In Progress)
 - [ ] Full OAuth Implementation (Upcoming)
 
-### 🤖 AI-Assisted Development Disclaimer
-This project utilizes Artificial Intelligence (AI) tools to assist in architecture discussions, code generation, and documentation optimization. However:
-- All final code, decisions, and merges are strictly reviewed and take full responsibility by the developer.
-- These AI tools act purely as local development assistants and **do not** have any access to, nor do they process, any of your personal Pinterest data.
+### 🤖 AI-Assisted Learning & Development
+PinWear is an independent learning and technical exploration project. AI tools are used during development to assist with architecture discussions, coding, and documentation optimization. Please note:
+- This project is primarily created for learning and technical exploration purposes.
+- All final technical decisions, code reviews, and project maintenance are independently managed by the developer.
 
 ### 🔒 Privacy Policy
 We take your privacy seriously. Please review our privacy policy for more details:
@@ -62,10 +62,10 @@ We take your privacy seriously. Please review our privacy policy for more detail
 - [ ] OAuth 授权技术验证 (进行中)
 - [ ] OAuth 完整实现 (即将开始)
 
-### 🤖 AI 辅助开发声明
-本项目在开发过程中，使用了人工智能（AI）工具来辅助进行架构讨论、代码编写与文档优化。但是：
-- 所有最终的代码合并、技术决策及发布责任均由开发者本人严格审核并承担。
-- AI 工具仅作为开发环境中的辅助工具，**绝对不会**接触、访问或处理任何用户的真实 Pinterest 业务数据。
+### 🤖 AI 辅助学习与开发
+PinWear 是一个独立的个人学习与技术探索项目。在开发过程中，使用了 AI 工具来辅助进行架构讨论、代码编写与文档优化。请注意：
+- 本项目主要用于学习和技术探索目的。
+- 所有最终的技术决策、代码审查与项目维护均由开发者独立负责。
 
 ### 🔒 隐私政策
 我们非常重视您的隐私，请查阅我们的隐私政策以了解更多细节：
