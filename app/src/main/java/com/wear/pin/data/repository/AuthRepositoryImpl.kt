@@ -1,0 +1,60 @@
+package com.wear.pin.data.repository
+
+import com.wear.pin.core.auth.AuthConfig
+import com.wear.pin.core.auth.OAuthStateGenerator
+import com.wear.pin.core.auth.OAuthUrlBuilder
+import com.wear.pin.data.mapper.toDomain
+import com.wear.pin.data.remote.pinterest.OAuthRemoteDataSource
+import com.wear.pin.domain.model.AuthState
+import com.wear.pin.domain.model.OAuthToken
+import com.wear.pin.domain.repository.AuthRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+/**
+ * Real implementation of AuthRepository that interacts with Pinterest OAuth API.
+ */
+class AuthRepositoryImpl(
+    private val remoteDataSource: OAuthRemoteDataSource,
+    private val urlBuilder: OAuthUrlBuilder = OAuthUrlBuilder(),
+    private val stateGenerator: OAuthStateGenerator = OAuthStateGenerator()
+) : AuthRepository {
+    private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
+
+    override fun getAuthState(): Flow<AuthState> = _authState.asStateFlow()
+
+    override fun buildAuthorizationUrl(): String =
+        urlBuilder.buildUrl(
+            clientId = AuthConfig.CLIENT_ID,
+            redirectUri = AuthConfig.REDIRECT_URI,
+            state = stateGenerator.generateState()
+        )
+
+    override suspend fun handleAuthorizationResponse(
+        code: String?,
+        state: String?,
+        error: String?
+    ) {
+        // Sprint 4D: state verification is deferred to actual token exchange logic if needed,
+        // or handled by throwing/mapping errors here.
+        // For this sprint, we do not update AuthState here (deferred to session management).
+    }
+
+    override suspend fun exchangeCodeForToken(code: String): Result<OAuthToken> =
+        remoteDataSource
+            .exchangeToken(code, AuthConfig.REDIRECT_URI)
+            .map { responseDto ->
+                // Note (Sprint 4D): We are only fetching and mapping the token here.
+                // Token persistence (e.g. saving to DataStore) and State management will be implemented in Sprint 4E.
+                responseDto.toDomain()
+            }
+
+    override suspend fun login() {
+        // Reserved for potential auto-login or session restoration in future sprints
+    }
+
+    override suspend fun logout() {
+        _authState.value = AuthState.Unauthenticated
+    }
+}
